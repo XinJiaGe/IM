@@ -3,29 +3,33 @@ package com.jiage.im;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
 
-import com.jiage.im.bean.SingleMessage;
-import com.jiage.im.event.CEventCenter;
-import com.jiage.im.event.Events;
-import com.jiage.im.event.I_CEventListener;
-import com.jiage.im.im.IMSClientBootstrap;
-import com.jiage.im.im.MessageProcessor;
-import com.jiage.im.im.MessageType;
-import com.jiage.im.utils.CThreadPoolExecutor;
+import com.jiage.library_im.client.bean.SingleMessage;
+import com.jiage.library_im.client.event.CEventCenter;
+import com.jiage.library_im.client.event.Events;
+import com.jiage.library_im.client.event.I_CEventListener;
+import com.jiage.library_im.client.im.IMSClientBootstrap;
+import com.jiage.library_im.client.im.MessageProcessor;
+import com.jiage.library_im.client.im.MessageType;
+import com.jiage.library_im.client.utils.CThreadPoolExecutor;
 
 import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity implements I_CEventListener {
 
+    private EditText mEdituserid;
+    private EditText sendUserId;
+    private EditText mEdithost;
+    private EditText mEditport;
+    private EditText mEdittoken;
     private EditText mEditText;
     private TextView mTextView;
-
-    String userId = "100001";
-    String token = "token_" + userId;
-    String hosts = "[{\"host\":\"10.10.10.135\", \"port\":8855}]";
+    private Button sendMsg;
+    private Button linajie;
 
     private static final String[] EVENTS = {
             Events.CHAT_SINGLE_MESSAGE
@@ -36,21 +40,38 @@ public class MainActivity extends AppCompatActivity implements I_CEventListener 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        sendUserId = findViewById(R.id.et_sendUserId);
+        mEditport = findViewById(R.id.et_port);
+        mEdithost = findViewById(R.id.et_host);
+        mEdituserid = findViewById(R.id.et_userid);
+        mEdittoken = findViewById(R.id.et_token);
         mEditText = findViewById(R.id.et_content);
         mTextView = findViewById(R.id.tv_msg);
+        sendMsg = findViewById(R.id.sendMsg);
+        linajie = findViewById(R.id.linajie);
 
-        IMSClientBootstrap.getInstance().init(userId, token, hosts, 1);
-
-        CEventCenter.registerEventListener(this, EVENTS);
+        linajie.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                IMSClientBootstrap.getInstance().init(mEdituserid.getText().toString(), mEdittoken.getText().toString(), "[{\"host\":\""+mEdithost.getText().toString()+"\", \"port\":"+mEditport.getText().toString()+"}]", 1);
+                CEventCenter.registerEventListener(MainActivity.this, EVENTS);
+            }
+        });
+        sendMsg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sendMsg();
+            }
+        });
     }
 
-    public void sendMsg(View view) {
+    public void sendMsg() {
         SingleMessage message = new SingleMessage();
         message.setMsgId(UUID.randomUUID().toString());
         message.setMsgType(MessageType.SINGLE_CHAT.getMsgType());
         message.setMsgContentType(MessageType.MessageContentType.TEXT.getMsgContentType());
-        message.setFromId(userId);
-        message.setToId("100002");
+        message.setFromId(mEdituserid.getText().toString());
+        message.setToId(sendUserId.getText().toString());
         message.setTimestamp(System.currentTimeMillis());
         message.setContent(mEditText.getText().toString());
 

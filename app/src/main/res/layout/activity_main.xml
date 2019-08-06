@@ -6,15 +6,71 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <EditText
-        android:id="@+id/et_content"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <Button
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="sendMsg"
+        android:orientation="horizontal">
+        <EditText
+            android:id="@+id/et_userid"
+            android:hint="userid"
+            android:text="100001"
+            android:layout_width="0px"
+            android:layout_weight="1"
+            android:layout_height="wrap_content" />
+        <EditText
+            android:id="@+id/et_token"
+            android:hint="token"
+            android:text="token_100001"
+            android:layout_width="0px"
+            android:layout_weight="1"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <EditText
+            android:id="@+id/et_host"
+            android:hint="host"
+            android:text="10.10.10.135"
+            android:layout_width="0px"
+            android:layout_weight="1"
+            android:layout_height="wrap_content" />
+        <EditText
+            android:id="@+id/et_port"
+            android:hint="port"
+            android:text="8855"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/linajie"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="链接" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <EditText
+            android:id="@+id/et_content"
+            android:layout_width="0px"
+            android:layout_weight="1"
+            android:layout_height="wrap_content" />
+        <EditText
+            android:id="@+id/et_sendUserId"
+            android:hint="接收人UserId"
+            android:text="100002"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/sendMsg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:text="发送消息" />
 
     <TextView

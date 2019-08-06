@@ -44,7 +44,7 @@ public interface OnEventListener {
     int getForegroundHeartbeatInterval();
 
     /**
-     * 获取应用在前台时心跳间隔时间
+     * 获取应用在后台时心跳间隔时间
      *
      * @return
      */
